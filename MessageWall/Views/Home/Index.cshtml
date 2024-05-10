@@ -1,8 +1,16 @@
-﻿@{
+﻿@model MessageWall.Models.CounterModel
+@{
     ViewData["Title"] = "Home Page";
 }
 
+
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Demo Counter</h1>
+    <div class="display-4">@Model.Counter</div>
 </div>
+
+<form method="post" class="text-center">
+    <input type="hidden" name="meow" value="@Model.Counter" />
+    <button type="submit" asp-action="OnIncrement">Increment</button>
+    <button type="submit" asp-action="OnDecrement">Decrement</button>
+</form>

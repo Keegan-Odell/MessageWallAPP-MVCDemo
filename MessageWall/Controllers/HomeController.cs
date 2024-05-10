@@ -1,11 +1,13 @@
 using MessageWall.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Diagnostics.Metrics;
 
 namespace MessageWall.Controllers
 {
     public class HomeController : Controller
     {
+
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
@@ -13,9 +15,10 @@ namespace MessageWall.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int meow)
         {
-            return View();
+            CounterModel model = new(meow);
+            return View(model);
         }
 
         public IActionResult Privacy()
@@ -23,10 +26,18 @@ namespace MessageWall.Controllers
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [HttpPost]
+        public IActionResult OnIncrement(int meow)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            meow++;
+            return RedirectToAction("Index", new { meow });
+        }
+
+        [HttpPost]
+        public IActionResult OnDecrement(int meow)
+        {
+            meow--;
+            return RedirectToAction("Index", new { meow });
         }
     }
 }
